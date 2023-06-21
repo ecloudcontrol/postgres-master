@@ -5,14 +5,13 @@ app:
     
 build:
     version: 12.2
-    env: DEV
+    env: PROD
     build_file: none
     output_files: output/*.zip
     image_template: postgres_master-12.2
-    image_name: alpha/postgres_master
     
 deploy:
-    context: alpha/DEV
+    context: ecloudcontrol/PROD
     type: statefulset
     replicas: 1
     port:
@@ -24,11 +23,7 @@ volumes:
     name: data
     size: 5Gi
     mode: ReadWriteOnce
-    class: microk8s-hostpath   
-    
-monitor:
-    notify: appzops@cloudbourne.co      
-    
+          
 properties:
     POSTGRESQL_REPLICATION_MODE: master
     POSTGRESQL_DATA: /appz/data
@@ -44,6 +39,6 @@ properties:
       vault: PGPASSWORD
     APPUSER_PASSWORD:
       vault: APPUSER_PASSWORD
-    APPZ_RESTORE_TOKEN: 20200810-1217
-    APPZ_LOAD_TOKEN: 20200810-1217
+    POSTGRESQL_OPENPROJECT_PASSWORD:
+      vault: POSTGRESQL_OPENPROJECT_PASSWORD
     revision : 56
